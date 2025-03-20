@@ -1,0 +1,69 @@
+@extends('layouts.main')
+
+@section('content')
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <!-- Judul Halaman -->
+            <h3 class="mt-3">Edit Contact</h3>
+
+
+
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="mb-3"><strong>Edit Contact</strong></h5>
+                    <form action="" method="POST">
+                        @csrf
+                        <div class="form-group">
+                            <label>Contact Name<span class="text-danger">*</span></label>
+                            @error('contact_name')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                            <input type="text" class="form-control" name="contact_name"
+                                value="{{ $contact_detail->contact_name }}">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Account Name<span class="text-danger">*</span></label>
+                            @error('account_id')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                            <select class="form-control select2" style="width: 100%;" name="account_id">
+                                <option value="">Select Account</option>
+                                @foreach ($account_list as $list)
+                                    @if ($list->id == $contact_detail->account_id)
+                                        <option value="{{ $list->id }}" selected>{{ $list->account_name }}</option>
+                                    @else
+                                        <option value="{{ $list->id }}">{{ $list->account_name }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone<span class="text-danger">*</span></label>
+                            @error('phone')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                            <input type="text" class="form-control" name="phone" value="{{ $contact_detail->phone }}">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+
+                            <input type="text" class="form-control" name="email" value="{{ $contact_detail->email }}">
+                        </div>
+
+
+
+
+                        <div class="d-flex">
+                            <button type="submit" class="btn btn-primary mr-2" name="submit"
+                                value="submit">Update</button>
+                            <a href="{{ url('contacts/manage-contacts') }}" type="button"
+                                class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
