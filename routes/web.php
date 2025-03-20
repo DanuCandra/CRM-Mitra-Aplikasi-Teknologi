@@ -85,3 +85,4 @@ Route::group(['prefix' => 'sales'], function () {
 Route::get('/sales' , [Admincontroller::class, 'sales']);
 
 Route::get('/sales/data', [Admincontroller::class, 'getSalesData']);
+Route::get('/sales/data-amount', [Admincontroller::class, 'getAmountData']);

@@ -118,7 +118,7 @@ function initializeChart(labels, data) {
 
 function updateChart(filter) {
   $.ajax({
-    url: '/sales/data',
+    url: '/sales/data', 
     method: 'GET',
     data: { filter: filter },
     success: function(response) {
