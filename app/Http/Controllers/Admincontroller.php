@@ -55,8 +55,7 @@ class Admincontroller extends Controller
     public function getSalesData(Request $request)
     {
         $filter = $request->input('filter', '1_month');
-        $user_id = Auth::id();
-
+    
         // Tentukan periode berdasarkan filter
         switch ($filter) {
             case '1_week':
@@ -67,7 +66,7 @@ class Admincontroller extends Controller
                 $startDate = now()->subMonth();
                 $groupBy = 'day';
                 break;
-            case '3_months':
+            case '3_month':
                 $startDate = now()->subMonths(3);
                 $groupBy = 'week';
                 break;
@@ -80,11 +79,11 @@ class Admincontroller extends Controller
                 $groupBy = 'day';
         }
         $endDate = now();
-
+    
         // Generate semua interval berdasarkan groupBy
         $periods = [];
         $current = clone $startDate;
-
+    
         while ($current <= $endDate) {
             switch ($groupBy) {
                 case 'day':
@@ -93,8 +92,9 @@ class Admincontroller extends Controller
                     $current->addDay();
                     break;
                 case 'week':
-                    $periodKey = $current->format('o-W');
-                    $label = 'Wk ' . $current->weekOfYear;
+                    // Perbaiki format key menjadi "tahun-Wminggu"
+                    $periodKey = sprintf('%s-W%02d', $current->format('o'), $current->format('W'));
+                    $label = 'Wk ' . $current->format('W');
                     $current->addWeek();
                     break;
                 case 'month':
@@ -108,11 +108,19 @@ class Admincontroller extends Controller
                 'total_amount' => 0,
             ];
         }
-
+    
+        // Cek apakah user adalah admin
+        if (Auth::user()->role === 'admin') {
+            // Untuk admin, ambil semua deal tanpa filter user_id
+            $query = DealModel::whereBetween('created_at', [$startDate, $endDate]);
+        } else {
+            // Untuk sales, ambil deal berdasarkan user_id
+            $user_id = Auth::id();
+            $query = DealModel::where('user_id', $user_id)
+                ->whereBetween('created_at', [$startDate, $endDate]);
+        }
+    
         // Query data berdasarkan groupBy
-        $query = DealModel::where('user_id', $user_id)
-            ->whereBetween('created_at', [$startDate, $endDate]);
-
         switch ($groupBy) {
             case 'day':
                 $query->selectRaw('DATE(created_at) as period, SUM(amount) as total_amount')
@@ -127,13 +135,14 @@ class Admincontroller extends Controller
                     ->groupBy('period');
                 break;
         }
-
+    
         $deals = $query->get();
-
+    
         // Isi data dari hasil query
         foreach ($deals as $deal) {
             $periodKey = $deal->period;
             if ($groupBy === 'week') {
+                // Transformasi key dari query agar sesuai dengan format interval
                 $year = substr($periodKey, 0, 4);
                 $week = substr($periodKey, 4);
                 $periodKey = sprintf('%s-W%02d', $year, $week);
@@ -142,12 +151,14 @@ class Admincontroller extends Controller
                 $periods[$periodKey]['total_amount'] = $deal->total_amount * 1; // Pastikan nilai numeric
             }
         }
+    
         // Ekstrak label dan data
         $labels = array_column($periods, 'label');
         $data = array_column($periods, 'total_amount');
-
+    
         return response()->json(compact('labels', 'data'));
     }
+    
 
 
 
@@ -174,100 +185,6 @@ class Admincontroller extends Controller
         
     }
 
-    public function getAmountData(Request $request)
-    {
-        $filter = $request->input('filter', '1_month');
-        $user_id = Auth::user();
-
-        // Tentukan periode berdasarkan filter
-        switch ($filter) {
-            case '1_week':
-                $startDate = now()->subWeek();
-                $groupBy = 'day';
-                break;
-            case '1_month':
-                $startDate = now()->subMonth();
-                $groupBy = 'day';
-                break;
-            case '3_months':
-                $startDate = now()->subMonths(3);
-                $groupBy = 'week';
-                break;
-            case '1_year':
-                $startDate = now()->subYear();
-                $groupBy = 'month';
-                break;
-            default:
-                $startDate = now()->subMonth();
-                $groupBy = 'day';
-        }
-        $endDate = now();
-
-        // Generate semua interval berdasarkan groupBy
-        $periods = [];
-        $current = clone $startDate;
-
-        while ($current <= $endDate) {
-            switch ($groupBy) {
-                case 'day':
-                    $periodKey = $current->format('Y-m-d');
-                    $label = $current->format('M j');
-                    $current->addDay();
-                    break;
-                case 'week':
-                    $periodKey = $current->format('o-W');
-                    $label = 'Wk ' . $current->weekOfYear;
-                    $current->addWeek();
-                    break;
-                case 'month':
-                    $periodKey = $current->format('Y-m');
-                    $label = $current->format('M Y');
-                    $current->addMonth();
-                    break;
-            }
-            $periods[$periodKey] = [
-                'label' => $label,
-                'total_amount' => 0,
-            ];
-        }
-
-        // Query data berdasarkan groupBy
-        $query = DealModel::whereBetween('created_at', [$startDate, $endDate]);
-
-        switch ($groupBy) {
-            case 'day':
-                $query->selectRaw('DATE(created_at) as period, SUM(amount) as total_amount')
-                    ->groupBy('period');
-                break;
-            case 'week':
-                $query->selectRaw('YEARWEEK(created_at, 1) as period, SUM(amount) as total_amount')
-                    ->groupBy('period');
-                break;
-            case 'month':
-                $query->selectRaw('DATE_FORMAT(created_at, "%Y-%m") as period, SUM(amount) as total_amount')
-                    ->groupBy('period');
-                break;
-        }
-
-        $deals = $query->get();
-
-        // Isi data dari hasil query
-        foreach ($deals as $deal) {
-            $periodKey = $deal->period;
-            if ($groupBy === 'week') {
-                $year = substr($periodKey, 0, 4);
-                $week = substr($periodKey, 4);
-                $periodKey = sprintf('%s-W%02d', $year, $week);
-            }
-            if (isset($periods[$periodKey])) {
-                $periods[$periodKey]['total_amount'] = $deal->total_amount * 1; // Pastikan nilai numeric
-            }
-        }
-        // Ekstrak label dan data
-        $labels = array_column($periods, 'label');
-        $data = array_column($periods, 'total_amount');
-
-        return response()->json(compact('labels', 'data'));
-    }
+    
 
 }

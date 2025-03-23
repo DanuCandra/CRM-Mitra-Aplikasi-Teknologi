@@ -43,13 +43,18 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Prospects Management
-            </div>
+            @if (Auth::user()->role == 'admin')
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    Sales Management
+                </div>
+            @endif
 
             @if (Auth::user()->role == 'sales')
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    Prospects Management
+                </div>
                 <!-- Nav Item - Pages Collapse Menu -->
                 <li class="nav-item {{ Request::is('prospects/*') ? 'active' : '' }}">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
@@ -147,6 +152,15 @@
                     <a class="nav-link" href="{{ url('/sales/manage-sales') }}">
                         <i class="fas fa-fw fa-user"></i>
                         <span>Manage Sales</span></a>
+                </li>
+                <hr class="sidebar-divider">
+                <div class="sidebar-heading">
+                    Report Management
+                </div>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ url('/reports/reports-sales') }}">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Report & Statistic</span></a>
                 </li>
             @endif
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DealController;
 use App\Http\Controllers\ProspectController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\SesiController;
 use App\Http\Middleware\UserAkses;
@@ -85,4 +86,8 @@ Route::group(['prefix' => 'sales'], function () {
 Route::get('/sales' , [Admincontroller::class, 'sales']);
 
 Route::get('/sales/data', [Admincontroller::class, 'getSalesData']);
-Route::get('/sales/data-amount', [Admincontroller::class, 'getAmountData']);
+
+Route::group(['prefix' => 'reports'], function () {
+    Route::get('/reports-sales', [ReportController::class, 'reports_sales']);
+    Route::get('/view-report/{id}', [ReportController::class, 'view_report']);
+});
