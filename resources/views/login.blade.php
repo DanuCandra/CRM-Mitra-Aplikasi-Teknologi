@@ -2,11 +2,11 @@
 <html lang="en">
 
 <head>
-    <title>Login V1</title>
+    <title>Login | CRM Mitra Aplikasi Teknologi</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--===============================================================================================-->
-    <link rel="icon" type="image/png" href="{{ url('Login_v1') }}/images/icons/favicon.ico" />
+    <link rel="icon" type="image/png" href="{{ url('') }}/img/colorful.svg" />
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="{{ url('Login_v1') }}/vendor/bootstrap/css/bootstrap.min.css">
     <!--===============================================================================================-->
@@ -36,7 +36,7 @@
                 <form class="login100-form validate-form" method="POST">
                     @csrf
                     <span class="login100-form-title">
-                        Member Login
+                        Login CRM Mitra Aplikasi Teknologi
                     </span>
                     @if ($errors->any())
                     <div class="alert alert-danger">
@@ -77,7 +77,7 @@
                             Forgot
                         </span>
                         <a class="txt2" href="#">
-                            Email / Password?
+                            Password?
                         </a>
                     </div>
 
