@@ -28,6 +28,7 @@ class ReportController extends Controller
         $contacts_count = ContactModel::where('user_id', $id)->count();
         $deals_count = DealModel::where('user_id', $id)->count();
         $total_amount = DealModel::where('user_id', $id)->sum('amount');
+        
 
         return view('reports.view_report', [
             'sales' => $sales,
@@ -38,4 +39,13 @@ class ReportController extends Controller
             'total_amount' => $total_amount
         ]);
     }
+
+    public function details_deals($user_id)
+{
+    $sales = User::findOrFail($user_id);
+    $deals = DealModel::where('user_id', $user_id)->get();
+
+    return view('reports.details_deals', compact('sales', 'deals'));
+}
+
 }

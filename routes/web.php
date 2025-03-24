@@ -90,4 +90,5 @@ Route::get('/sales/data', [Admincontroller::class, 'getSalesData']);
 Route::group(['prefix' => 'reports'], function () {
     Route::get('/reports-sales', [ReportController::class, 'reports_sales']);
     Route::get('/view-report/{id}', [ReportController::class, 'view_report']);
+    Route::get('/details-deals/{user_id}', [ReportController::class, 'details_deals']);
 });

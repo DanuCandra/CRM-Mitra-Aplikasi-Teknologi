@@ -23,7 +23,6 @@
                                 <th>Closing Date</th>
                                 <th>Company Name</th>
                                 <th>Contact Name</th>
-                                <th>Action</th>
                             </tr>
                         </thead>
                         <tfoot>
@@ -34,7 +33,6 @@
                                 <th>Closing Date</th>
                                 <th>Company Name</th>
                                 <th>Contact Name</th>
-                                <th>Action</th>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -47,14 +45,7 @@
                                     <td>{{ $deal->get_account_detail->account_name }}</td>
                                     <td>{{ $deal->get_contact_detail->contact_name }}</td>
 
-                                    <td>
-                                        <button class="btn btn-primary btn-sm" data-toggle="modal"
-                                            data-target="#edit_contact_{{ $deal->id }}"><i
-                                                class="fas fa-edit"></i></button>
-                                        <button class="btn btn-danger btn-sm" data-toggle="modal"
-                                            data-target="#hapus_contact_{{ $deal->id }}"><i
-                                                class="fas fa-trash"></i></button>
-                                    </td>
+                                    
                                 </tr>
 
                                 <!-- Hapus Modal-->
