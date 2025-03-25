@@ -13,6 +13,9 @@
             @if (Auth::user()->role == 'sales')
                 <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/sales') }}">
             @endif
+            @if (Auth::user()->role == 'superadmin')
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
+            @endif
 
             <div class="sidebar-brand-icon">
                 <img src="{{ asset('img/colorful.svg') }}" style="width: 65px; height: 65px; ">
@@ -150,9 +153,13 @@
             @if (Auth::user()->role == 'admin')
                 <li class="nav-item active">
                     <a class="nav-link" href="{{ url('/sales/manage-sales') }}">
-                        <i class="fas fa-fw fa-user"></i>
-                        <span>Manage Sales</span></a>
+                        <i class="fas fa-fw fa-users"></i>
+                        <span>Manage Sales</span>
+                    </a>
                 </li>
+
+
+
                 <hr class="sidebar-divider">
                 <div class="sidebar-heading">
                     Report Management
@@ -163,6 +170,16 @@
                         <span>Report & Statistic</span></a>
                 </li>
             @endif
+
+            @if (Auth::user()->role == 'superadmin')
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ url('/superadmin') }}">
+                        <i class="fas fa-fw fa-user-shield"></i>
+                        <span>Manage Admin</span>
+                    </a>
+                </li>
+            @endif
+
 
 
             <!-- Nav Item - Tables -->

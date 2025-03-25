@@ -4,8 +4,36 @@
     <!-- Begin Page Content -->
     <div class="container-fluid">
 
+
+
         <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800">All Deals</h1>
+        <h1 class="h3 mb-2 text-gray-800">All Deals For Sales <span
+                class="font-weight-bold text-primary">{{ $sales->name }}</span></h1>
+        <!-- Tombol Back -->
+        <a href="{{ url('/reports/view-report/' . $sales->id) }}" class="btn btn-secondary mb-3">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
+        <!-- Filter Tanggal -->
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <form method="GET" action="{{ url('/reports/details-deals/' . $sales->id) }}">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="start_date" class="form-label">Start Date:</label>
+                            <input type="date" class="form-control" name="start_date"
+                                value="{{ request('start_date') }}">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="end_date" class="form-label">End Date:</label>
+                            <input type="date" class="form-control" name="end_date" value="{{ request('end_date') }}">
+                        </div>
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary">Filter</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
 
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
@@ -25,76 +53,16 @@
                                 <th>Contact Name</th>
                             </tr>
                         </thead>
-                        <tfoot>
-                            <tr>
-                                <th>Deal Name</th>
-                                <th>Amount</th>
-                                <th>Stage</th>
-                                <th>Closing Date</th>
-                                <th>Company Name</th>
-                                <th>Contact Name</th>
-                            </tr>
-                        </tfoot>
                         <tbody>
                             @foreach ($deals as $deal)
                                 <tr>
-                                    <td>{{ $deal->deal_name }}</a> </td>
+                                    <td>{{ $deal->deal_name }}</td>
                                     <td>Rp {{ number_format($deal->amount, 0, ',', '.') }}</td>
                                     <td>{{ $deal->deal_stage }}</td>
                                     <td>{{ $deal->closing_date }}</td>
                                     <td>{{ $deal->get_account_detail->account_name }}</td>
                                     <td>{{ $deal->get_contact_detail->contact_name }}</td>
-
-                                    
                                 </tr>
-
-                                <!-- Hapus Modal-->
-                                <div class="modal fade" id="hapus_contact_{{ $deal->id }}" tabindex="-1" role="dialog"
-                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Hapus Contact</h5>
-                                                <button class="close" type="button" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">×</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">Are you sure delete this deal
-                                                {{ $deal->deal_name }} ?</div>
-                                            <div class="modal-footer">
-                                                <button class="btn btn-secondary" type="button"
-                                                    data-dismiss="modal">Cancel</button>
-                                                <a class="btn btn-danger"
-                                                    href="{{ url('/deals/delete-deal/' . $deal->id) }}">Hapus</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Edit Modal-->
-                                <div class="modal fade" id="edit_contact_{{ $deal->id }}" tabindex="-1" role="dialog"
-                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Edit Contact?</h5>
-                                                <button class="close" type="button" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">×</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">Are you sure edit this deal
-                                                {{ $deal->deal_name }}?</div>
-                                            <div class="modal-footer">
-                                                <button class="btn btn-secondary" type="button"
-                                                    data-dismiss="modal">Cancel</button>
-                                                <a class="btn btn-primary"
-                                                    href="{{ url('/deals/edit-deal/' . $deal->id) }}">Edit</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             @endforeach
                         </tbody>
                     </table>

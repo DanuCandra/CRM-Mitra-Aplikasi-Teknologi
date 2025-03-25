@@ -185,6 +185,36 @@ class Admincontroller extends Controller
         
     }
 
+
+    public function manage_admin()
+    {
+        $users = User::where('role', 'admin')->get();
+        return view('admin.manage_admin', ['users' => $users]);
+    }
+
+    public function add_admin(Request $req)
+    {
+        $submit = $req['submit'];
+        if ($submit == "submit") {
+            $req->validate([
+                'name' => 'required',
+                'email' => 'required',
+                'password' => 'required',
+            ]);
+
+            $user = new User();
+            $user->name = $req['name'];
+            $user->email = $req['email'];
+            $user->password = bcrypt($req['password']);
+            $user->role = 'admin';
+            $user->save();
+
+            return redirect('/superadmin');
+        }
+
+        return view('admin.add_admin');
+                
+    }
     
 
 }

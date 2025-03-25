@@ -11,6 +11,7 @@ use App\Http\Controllers\SalesController;
 use App\Http\Controllers\SesiController;
 use App\Http\Middleware\UserAkses;
 use Illuminate\Support\Facades\Route;
+use SebastianBergmann\CodeCoverage\Report\Xml\Report;
 
 // Route::get('/sales', function () {
 //     return view('dashboard.sales_dashboard');
@@ -32,6 +33,7 @@ Route::get('/home', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/sales', [Admincontroller::class, 'sales'])->middleware(UserAkses::class . ':sales');
     Route::get('/admin', [Admincontroller::class, 'admin'])->middleware(UserAkses::class . ':admin');
+    Route::get('/superadmin', [Admincontroller::class, 'manage_admin'])->middleware(UserAkses::class . ':superadmin');
     Route::get('/logout', [SesiController::class, 'logout']);
 });
 
@@ -83,12 +85,32 @@ Route::group(['prefix' => 'sales'], function () {
     Route::post('/edit-sales/{id}', [SalesController::class, 'edit_sales']);
 });
 
-Route::get('/sales' , [Admincontroller::class, 'sales']);
+Route::group(['prefix' => 'admin'], function () {
+    Route::get('/add-admin', [Admincontroller::class, 'add_admin']);
+    Route::post('/add-admin', [Admincontroller::class, 'add_admin']);
+    Route::get('/delete-admin/{id}', [Admincontroller::class, 'delete_admin']);
+    Route::get('/edit-admin/{id}', [Admincontroller::class, 'edit_admin']);
+    Route::post('/edit-admin/{id}', [Admincontroller::class, 'edit_admin']);
+});
+
+Route::get('/sales', [Admincontroller::class, 'sales']);
 
 Route::get('/sales/data', [Admincontroller::class, 'getSalesData']);
+
+// routes/web.php
+Route::get('/reports/chart-data/{id}', [ReportController::class, 'getChartData']);
+
+
+
 
 Route::group(['prefix' => 'reports'], function () {
     Route::get('/reports-sales', [ReportController::class, 'reports_sales']);
     Route::get('/view-report/{id}', [ReportController::class, 'view_report']);
     Route::get('/details-deals/{user_id}', [ReportController::class, 'details_deals']);
+    Route::get('/details-accounts/{user_id}', [ReportController::class, 'details_accounts']);
+    Route::get('/details-contacts/{user_id}', [ReportController::class, 'details_contacts']);
+    Route::get('/details-prospects/{user_id}', [ReportController::class, 'details_prospects']);
+    
+    
+    
 });
