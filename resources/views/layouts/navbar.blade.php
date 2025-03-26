@@ -36,10 +36,11 @@
                 </li>
             @endif
             @if (Auth::user()->role == 'admin')
-                <li class="nav-item active">
+                <li class="nav-item {{ Request::is('admin') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/admin') }}">
                         <i class="fas fa-fw fa-tachometer-alt"></i>
-                        <span>Dashboard Admin</span></a>
+                        <span>Dashboard Admin</span>
+                    </a>
                 </li>
             @endif
 
@@ -151,23 +152,56 @@
 
             <!-- Nav Item - Charts -->
             @if (Auth::user()->role == 'admin')
-                <li class="nav-item active">
+                <li class="nav-item {{ Request::is('sales/manage-sales') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/sales/manage-sales') }}">
                         <i class="fas fa-fw fa-users"></i>
                         <span>Manage Sales</span>
                     </a>
                 </li>
 
-
-
                 <hr class="sidebar-divider">
                 <div class="sidebar-heading">
                     Report Management
                 </div>
-                <li class="nav-item active">
+
+                <li class="nav-item {{ Request::is('reports/reports-sales') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/reports/reports-sales') }}">
                         <i class="fas fa-chart-line"></i>
-                        <span>Report & Statistic</span></a>
+                        <span>Report & Statistic</span>
+                    </a>
+                </li>
+                <!-- Divider -->
+                <hr class="sidebar-divider d-none d-md-block">
+                <div class="sidebar-heading">
+                    All Data
+                </div>
+
+                <li class="nav-item {{ Request::is('reports/reports-sales') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/reports/reports-sales') }}">
+                        <i class="fas fa-user-tag"></i> {{-- Ikon untuk prospek --}}
+                        <span>All Prospects</span>
+                    </a>
+                </li>
+
+                <li class="nav-item {{ Request::is('reports/reports-sales') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/reports/reports-sales') }}">
+                        <i class="fas fa-building"></i> {{-- Ikon untuk akun perusahaan --}}
+                        <span>All Accounts</span>
+                    </a>
+                </li>
+
+                <li class="nav-item {{ Request::is('reports/reports-sales') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/reports/reports-sales') }}">
+                        <i class="fas fa-address-book"></i> {{-- Ikon untuk kontak --}}
+                        <span>All Contacts</span>
+                    </a>
+                </li>
+
+                <li class="nav-item {{ Request::is('reports/reports-sales') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/reports/reports-sales') }}">
+                        <i class="fas fa-handshake"></i> {{-- Ikon untuk deals/transaksi --}}
+                        <span>All Deals</span>
+                    </a>
                 </li>
             @endif
 
@@ -189,8 +223,7 @@
                     <span>Tables</span></a>
             </li> --}}
 
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
+
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">

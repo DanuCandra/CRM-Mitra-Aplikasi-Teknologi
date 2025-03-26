@@ -24,6 +24,13 @@ class ReportController extends Controller
     {
         $sales = User::findOrFail($id);
 
+        $prospect_sources = [
+            'Advertising' => ProspectModel::where('user_id', $id)->where('prospect_source', 'Advertising')->count(),
+            'Social Media' => ProspectModel::where('user_id', $id)->where('prospect_source', 'Social Media')->count(),
+            'Direct Call' => ProspectModel::where('user_id', $id)->where('prospect_source', 'Direct Call')->count(),
+            'Search' => ProspectModel::where('user_id', $id)->where('prospect_source', 'Search')->count(),
+        ];
+
         // Count data
         $prospects_count = ProspectModel::where('user_id', $id)->count();
         $accounts_count = AccountModel::where('user_id', $id)->count();
@@ -38,7 +45,8 @@ class ReportController extends Controller
             'accounts_count' => $accounts_count,
             'contacts_count' => $contacts_count,
             'deals_count' => $deals_count,
-            'total_amount' => $total_amount
+            'total_amount' => $total_amount,
+            'prospect_sources' => $prospect_sources
         ]);
     }
 

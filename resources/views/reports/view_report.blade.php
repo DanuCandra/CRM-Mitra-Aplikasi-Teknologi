@@ -125,7 +125,55 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Pie Chart -->
+          <div class="col-xl-4 col-lg-5">
+            <div class="card shadow mb-4">
+                <!-- Card Header -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Prospect Sources</h6>
+                    <div class="dropdown no-arrow">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                            aria-labelledby="dropdownMenuLink">
+                            <div class="dropdown-header">Options:</div>
+                            <a class="dropdown-item" href="#">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="chart-pie pt-4 pb-2">
+                        <canvas id="prospectSourceChart"
+                            data-advertising="{{ $prospect_sources['Advertising'] ?? 0 }}"
+                            data-social-media="{{ $prospect_sources['Social Media'] ?? 0 }}"
+                            data-direct-call="{{ $prospect_sources['Direct Call'] ?? 0 }}"
+                            data-search="{{ $prospect_sources['Search'] ?? 0 }}">
+                        </canvas>
+                    </div>
+                    <div class="mt-4 text-center small">
+                        <span class="mr-2">
+                            <i class="fas fa-circle text-primary"></i> Advertising
+                        </span>
+                        <span class="mr-2">
+                            <i class="fas fa-circle text-success"></i> Social Media
+                        </span>
+                        <span class="mr-2">
+                            <i class="fas fa-circle text-danger"></i> Direct Call
+                        </span>
+                        <span class="mr-2">
+                            <i class="fas fa-circle text-warning"></i> Search
+                        </span>
+                    </div>
+                </div>
+            </div>
         </div>
+        </div>
+
+          
     </div>
     <script>
         var myLineChart;
