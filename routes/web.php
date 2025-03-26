@@ -97,7 +97,7 @@ Route::get('/sales', [Admincontroller::class, 'sales']);
 
 Route::get('/sales/data', [Admincontroller::class, 'getSalesData']);
 
-// routes/web.php
+
 Route::get('/reports/chart-data/{id}', [ReportController::class, 'getChartData']);
 
 
