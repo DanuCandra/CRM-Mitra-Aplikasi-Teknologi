@@ -110,7 +110,8 @@ Route::group(['prefix' => 'reports'], function () {
     Route::get('/details-accounts/{user_id}', [ReportController::class, 'details_accounts']);
     Route::get('/details-contacts/{user_id}', [ReportController::class, 'details_contacts']);
     Route::get('/details-prospects/{user_id}', [ReportController::class, 'details_prospects']);
-    
-    
-    
+    Route::get('/reports-prospects', [ReportController::class, 'reports_prospects']);
+    Route::get('/reports-accounts', [ReportController::class, 'reports_accounts']);
+    Route::get('/reports-contacts', [ReportController::class, 'reports_contacts']);
+    Route::get('/reports-deals', [ReportController::class, 'reports_deals']);
 });

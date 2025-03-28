@@ -6,7 +6,6 @@
 
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h1 class="h3 text-gray-800">All Sales</h1>
-            <a href="{{ url('/sales/add-sales') }}" class="btn btn-success"><i class="fas fa-plus"></i> Add Sales</a>
         </div>
 
 

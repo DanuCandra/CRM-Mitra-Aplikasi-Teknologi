@@ -176,29 +176,29 @@
                     All Data
                 </div>
 
-                <li class="nav-item {{ Request::is('reports/reports-sales') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ url('/reports/reports-sales') }}">
+                <li class="nav-item {{ Request::is('reports/reports-prospects') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/reports/reports-prospects') }}">
                         <i class="fas fa-user-tag"></i> {{-- Ikon untuk prospek --}}
                         <span>All Prospects</span>
                     </a>
                 </li>
 
-                <li class="nav-item {{ Request::is('reports/reports-sales') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ url('/reports/reports-sales') }}">
+                <li class="nav-item {{ Request::is('reports/reports-accounts') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/reports/reports-accounts') }}">
                         <i class="fas fa-building"></i> {{-- Ikon untuk akun perusahaan --}}
                         <span>All Accounts</span>
                     </a>
                 </li>
 
-                <li class="nav-item {{ Request::is('reports/reports-sales') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ url('/reports/reports-sales') }}">
+                <li class="nav-item {{ Request::is('reports/reports-contacts') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/reports/reports-contacts') }}">
                         <i class="fas fa-address-book"></i> {{-- Ikon untuk kontak --}}
                         <span>All Contacts</span>
                     </a>
                 </li>
 
-                <li class="nav-item {{ Request::is('reports/reports-sales') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ url('/reports/reports-sales') }}">
+                <li class="nav-item {{ Request::is('reports/reports-deals') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/reports/reports-deals') }}">
                         <i class="fas fa-handshake"></i> {{-- Ikon untuk deals/transaksi --}}
                         <span>All Deals</span>
                     </a>

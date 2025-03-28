@@ -102,30 +102,36 @@ class ReportController extends Controller
 
         switch ($filter) {
             case '1_week':
-                $startDate = Carbon::now()->subWeek();
+                $startDate = Carbon::now()->subWeek()->startOfDay();
                 $groupBy = 'day';
+                $dateFormat = '%Y-%m-%d';
                 break;
             case '1_month':
-                $startDate = Carbon::now()->subMonth();
+                $startDate = Carbon::now()->subMonth()->startOfDay();
                 $groupBy = 'day';
+                $dateFormat = '%Y-%m-%d';
                 break;
             case '3_month':
-                $startDate = Carbon::now()->subMonths(3);
+                $startDate = Carbon::now()->subMonths(3)->startOfMonth();
                 $groupBy = 'week';
+                $dateFormat = '%X-%V'; // ISO Year-Week format
                 break;
             case '1_year':
-                $startDate = Carbon::now()->subYear();
+                $startDate = Carbon::now()->subYear()->startOfYear();
                 $groupBy = 'month';
+                $dateFormat = '%Y-%m';
                 break;
             default:
-                $startDate = Carbon::now()->subMonth();
+                $startDate = Carbon::now()->subMonth()->startOfDay();
                 $groupBy = 'day';
+                $dateFormat = '%Y-%m-%d';
         }
-        $endDate = Carbon::now();
+
+        $endDate = Carbon::now()->endOfDay();
 
         // Generate period intervals
         $periods = [];
-        $current = clone $startDate;
+        $current = $startDate->copy();
 
         while ($current <= $endDate) {
             switch ($groupBy) {
@@ -142,7 +148,7 @@ class ReportController extends Controller
                 case 'month':
                     $periodKey = $current->format('Y-m');
                     $label = $current->format('M Y');
-                    $current->addMonth();
+                    $current->addMonthNoOverflow();
                     break;
             }
             $periods[$periodKey] = ['label' => $label, 'total_amount' => 0];
@@ -153,13 +159,13 @@ class ReportController extends Controller
 
         switch ($groupBy) {
             case 'day':
-                $query->selectRaw('DATE(created_at) as period, SUM(amount) as total_amount')->groupBy('period');
+                $query->selectRaw("DATE_FORMAT(created_at, '{$dateFormat}') as period, SUM(amount) as total_amount")->groupBy('period');
                 break;
             case 'week':
-                $query->selectRaw('YEARWEEK(created_at, 1) as period, SUM(amount) as total_amount')->groupBy('period');
+                $query->selectRaw("DATE_FORMAT(created_at, '{$dateFormat}') as period, SUM(amount) as total_amount")->groupBy('period');
                 break;
             case 'month':
-                $query->selectRaw('DATE_FORMAT(created_at, "%Y-%m") as period, SUM(amount) as total_amount')->groupBy('period');
+                $query->selectRaw("DATE_FORMAT(created_at, '{$dateFormat}') as period, SUM(amount) as total_amount")->groupBy('period');
                 break;
         }
 
@@ -175,5 +181,33 @@ class ReportController extends Controller
             'labels' => array_column($periods, 'label'),
             'data' => array_column($periods, 'total_amount')
         ]);
+    }
+
+    public function reports_prospects()
+    {
+        $data = ProspectModel::with('user')->get();
+
+        return view('reports.reports_prospects', ['prospects' => $data]);
+    }
+
+    public function reports_accounts()
+    {
+        $data = AccountModel::with('user')->get();
+
+        return view('reports.reports_accounts', ['accounts' => $data]);
+    }
+
+    public function reports_contacts()
+    {
+        $data = ContactModel::with('user')->get();
+
+        return view('reports.reports_contacts', ['contacts' => $data]);
+    }
+
+    public function reports_deals()
+    {
+        $data = DealModel::with('user')->get();
+
+        return view('reports.reports_deals', ['deals' => $data]);
     }
 }

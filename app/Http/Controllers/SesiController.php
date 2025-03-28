@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class SesiController extends Controller
 {
+    
     function index()
     {
         return view('login');

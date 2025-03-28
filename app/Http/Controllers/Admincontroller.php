@@ -17,6 +17,10 @@ class Admincontroller extends Controller
             return redirect()->route('login');
         }
 
+        if (!Auth::user() || Auth::user()->role == null) {
+            return redirect()->route('login');
+        }
+
 
         $total_prospects = ProspectModel::where('user_id', Auth::user()->id)->count();
         $total_deals = DealModel::where('user_id', Auth::user()->id)->count();
@@ -55,7 +59,7 @@ class Admincontroller extends Controller
     public function getSalesData(Request $request)
     {
         $filter = $request->input('filter', '1_month');
-    
+
         // Tentukan periode berdasarkan filter
         switch ($filter) {
             case '1_week':
@@ -79,11 +83,11 @@ class Admincontroller extends Controller
                 $groupBy = 'day';
         }
         $endDate = now();
-    
+
         // Generate semua interval berdasarkan groupBy
         $periods = [];
         $current = clone $startDate;
-    
+
         while ($current <= $endDate) {
             switch ($groupBy) {
                 case 'day':
@@ -108,7 +112,7 @@ class Admincontroller extends Controller
                 'total_amount' => 0,
             ];
         }
-    
+
         // Cek apakah user adalah admin
         if (Auth::user()->role === 'admin') {
             // Untuk admin, ambil semua deal tanpa filter user_id
@@ -119,7 +123,7 @@ class Admincontroller extends Controller
             $query = DealModel::where('user_id', $user_id)
                 ->whereBetween('created_at', [$startDate, $endDate]);
         }
-    
+
         // Query data berdasarkan groupBy
         switch ($groupBy) {
             case 'day':
@@ -135,9 +139,9 @@ class Admincontroller extends Controller
                     ->groupBy('period');
                 break;
         }
-    
+
         $deals = $query->get();
-    
+
         // Isi data dari hasil query
         foreach ($deals as $deal) {
             $periodKey = $deal->period;
@@ -151,14 +155,14 @@ class Admincontroller extends Controller
                 $periods[$periodKey]['total_amount'] = $deal->total_amount * 1; // Pastikan nilai numeric
             }
         }
-    
+
         // Ekstrak label dan data
         $labels = array_column($periods, 'label');
         $data = array_column($periods, 'total_amount');
-    
+
         return response()->json(compact('labels', 'data'));
     }
-    
+
 
 
 
@@ -181,8 +185,6 @@ class Admincontroller extends Controller
             'total_amount' => $total_amount,
             'prospect_sources' => $prospect_sources
         ]);
-
-        
     }
 
 
@@ -213,8 +215,5 @@ class Admincontroller extends Controller
         }
 
         return view('admin.add_admin');
-                
     }
-    
-
 }
