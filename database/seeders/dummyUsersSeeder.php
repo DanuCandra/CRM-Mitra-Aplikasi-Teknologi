@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Faker\Factory as Faker;
 
 class dummyUsersSeeder extends Seeder
 {
@@ -13,7 +13,10 @@ class dummyUsersSeeder extends Seeder
      */
     public function run(): void
     {
-        $userData = [
+        $faker = Faker::create();
+
+        // Data User Default (Statis)
+        $defaultUsers = [
             [
                 'name' => 'Mas Sales',
                 'email' => 'sales@gmail.com',
@@ -40,8 +43,19 @@ class dummyUsersSeeder extends Seeder
             ],
         ];
 
-        foreach ($userData as $key => $val) {
-            User::create($val);
+        // Masukkan data user statis ke database
+        foreach ($defaultUsers as $user) {
+            User::create($user);
+        }
+
+        // Tambahkan 10 User Random
+        for ($i = 0; $i < 10; $i++) {
+            User::create([
+                'name' => $faker->name(),
+                'email' => $faker->unique()->safeEmail(),
+                'role' => $faker->randomElement(['sales', 'admin', 'superadmin']),
+                'password' => bcrypt('password'), // Default password
+            ]);
         }
     }
 }
