@@ -38,6 +38,8 @@
     composer install --prefer-dist --no-dev
     
     php ./artisan migrate --force
+
+    php ./artisan db:seed --force
 @endtask
 
 @task('live', ['on' => 'production'])
