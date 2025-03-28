@@ -36,7 +36,7 @@
                 <form class="login100-form validate-form" method="POST">
                     @csrf
                     <span class="login100-form-title">
-                        Login CRM Mitra Aplikasi Teknologi
+                        Login CRM Mitra Aplikasi Teknologi 
                     </span>
                     @if ($errors->any())
                     <div class="alert alert-danger">
