@@ -32,6 +32,12 @@ class dummyUsersSeeder extends Seeder
                 'role' => 'sales',
                 'password' => bcrypt('123'),
             ],
+            [
+                'name' => 'Super Admin',
+                'email' => 'superadmin@gmail.com',
+                'role' => 'superadmin',
+                'password' => bcrypt('123'),
+            ],
         ];
 
         foreach ($userData as $key => $val) {
