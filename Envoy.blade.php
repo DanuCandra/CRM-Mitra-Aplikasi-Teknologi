@@ -37,9 +37,11 @@
 
     composer install --prefer-dist --no-dev
     
-    php ./artisan migrate --force
+    echo "🚀 Running Migrations..."
+    php ./artisan migrate --force || { echo "❌ Migration failed"; exit 1; }
 
-    php ./artisan db:seed --force
+    echo "🚀 Running Seeder..."
+    php ./artisan db:seed --force || { echo "❌ Seeding failed"; exit 1; }
 @endtask
 
 @task('live', ['on' => 'production'])
