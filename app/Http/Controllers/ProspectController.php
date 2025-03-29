@@ -40,6 +40,7 @@ class ProspectController extends Controller
             $prospect->zip_code = $req['zip_code'];
             $prospect->country = $req['country'];
             $prospect->description = $req['description'];
+            $prospect->status = 'aktif';
             $prospect->save();
 
             return redirect('/prospects/manage-prospects');
@@ -49,7 +50,9 @@ class ProspectController extends Controller
 
     public function manage_prospects()
     {
-        $prospects = ProspectModel::where('user_id', Auth::user()->id)->get();
+        $prospects = ProspectModel::where('user_id', Auth::user()->id)
+            ->where('status', 'aktif')
+            ->get();
         return view('prospects.manage_prospects', ['prospects' => $prospects]);
     }
 
@@ -124,16 +127,16 @@ class ProspectController extends Controller
                 'deal_stage' => 'required',
             ]);
 
-             // create account
-             $account = new AccountModel();
-             $account->user_id = Auth::user()->id;
-             $account->account_name = $prospect->company;
-             $account->phone = $prospect->phone;
-             $account->save();
- 
-             $account_id = $account->id;
+            // create account
+            $account = new AccountModel();
+            $account->user_id = Auth::user()->id;
+            $account->account_name = $prospect->company;
+            $account->phone = $prospect->phone;
+            $account->save();
 
-             // create contact
+            $account_id = $account->id;
+
+            // create contact
             $contact = new ContactModel();
             $contact->user_id = Auth::user()->id;
             $contact->contact_name = $prospect->first_name . ' ' . $prospect->last_name;
@@ -155,8 +158,9 @@ class ProspectController extends Controller
             $deal->contact_id = $contact_id;
             $deal->save();
 
-            // delete prospect
-            $prospect->delete();
+            // jangan tampilkan prospect
+            $prospect->status = 'non-aktif';
+            $prospect->save();
 
             return redirect('/deals/manage-deals');
         }

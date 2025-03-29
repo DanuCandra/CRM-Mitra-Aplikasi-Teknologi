@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\ActivitiesController;
 use App\Http\Controllers\Admincontroller;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
@@ -74,6 +75,17 @@ Route::group(['prefix' => 'deals'], function () {
     Route::get('/delete-deal/{id}', [DealController::class, 'delete_deal']);
     Route::get('/edit-deal/{id}', [DealController::class, 'edit_deal']);
     Route::post('/edit-deal/{id}', [DealController::class, 'edit_deal']);
+});
+
+Route::group(['prefix' => 'activities'], function () {
+    Route::get('/list-prospects', [ActivitiesController::class, 'list_prospects']);
+    Route::get('/add-activity/{id}', [ActivitiesController::class, 'add_activity']);
+    Route::post('/add-activity/{id}', [ActivitiesController::class, 'add_activity']);
+    Route::get('/manage-activities', [ActivitiesController::class, 'manage_activities']);
+    Route::get('/view-activities/{id}', [ActivitiesController::class, 'view_activities']);
+    Route::get('/delete-activity/{id}', [ActivitiesController::class, 'delete_activity']);
+    Route::get('/edit-activity/{id}', [ActivitiesController::class, 'edit_activity']);
+    Route::post('/edit-activity/{id}', [ActivitiesController::class, 'edit_activity']);
 });
 
 Route::group(['prefix' => 'sales'], function () {

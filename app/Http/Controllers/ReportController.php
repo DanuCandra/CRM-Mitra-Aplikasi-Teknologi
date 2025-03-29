@@ -32,7 +32,7 @@ class ReportController extends Controller
         ];
 
         // Count data
-        $prospects_count = ProspectModel::where('user_id', $id)->count();
+        $prospects_count = ProspectModel::where('user_id', $id)->where('status', 'aktif')->count();
         $accounts_count = AccountModel::where('user_id', $id)->count();
         $contacts_count = ContactModel::where('user_id', $id)->count();
         $deals_count = DealModel::where('user_id', $id)->count();
@@ -90,7 +90,7 @@ class ReportController extends Controller
     public function details_prospects(Request $request, $user_id)
     {
         $sales = User::findOrFail($user_id);
-        $prospects = ProspectModel::where('user_id', $user_id)->get();
+        $prospects = ProspectModel::where('user_id', $user_id)->where('status', 'aktif')->get();
 
         return view('reports.details_prospects', compact('sales', 'prospects'));
     }
@@ -185,7 +185,7 @@ class ReportController extends Controller
 
     public function reports_prospects()
     {
-        $data = ProspectModel::with('user')->get();
+        $data = ProspectModel::where('status', '!=', 'non-aktif')->with('user')->get();
 
         return view('reports.reports_prospects', ['prospects' => $data]);
     }

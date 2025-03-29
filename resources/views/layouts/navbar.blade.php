@@ -18,21 +18,21 @@
             @endif
 
             <div class="sidebar-brand-icon">
-                <img src="{{ asset('img/colorful.svg') }}" style="width: 65px; height: 65px; ">
+                <img src="{{ asset('img/colorful.svg') }}" style="width: 65px; height: 65px;">
             </div>
             <div class="sidebar-brand-text mx-3">CRM<sup>A6</sup></div>
             </a>
-
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
             @if (Auth::user()->role == 'sales')
-                <li class="nav-item active">
+                <li class="nav-item {{ Request::is('sales') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/sales') }}">
                         <i class="fas fa-fw fa-tachometer-alt"></i>
-                        <span>Dashboard Sales</span></a>
+                        <span>Dashboard Sales</span>
+                    </a>
                 </li>
             @endif
             @if (Auth::user()->role == 'admin')
@@ -43,7 +43,6 @@
                     </a>
                 </li>
             @endif
-
 
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -59,7 +58,7 @@
                 <div class="sidebar-heading">
                     Prospects Management
                 </div>
-                <!-- Nav Item - Pages Collapse Menu -->
+                <!-- Nav Item - Prospects Collapse Menu -->
                 <li class="nav-item {{ Request::is('prospects/*') ? 'active' : '' }}">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                         aria-expanded="{{ Request::is('prospects/*') ? 'true' : 'false' }}" aria-controls="collapseTwo">
@@ -78,8 +77,25 @@
                     </div>
                 </li>
 
-
-
+                <!-- Nav Item - Activities Collapse Menu -->
+                <li class="nav-item {{ Request::is('activities/*') ? 'active' : '' }}">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapactivity"
+                        aria-expanded="{{ Request::is('activities/*') ? 'true' : 'false' }}"
+                        aria-controls="collapactivity">
+                        <i class="fas fa-fw fa-calendar-alt"></i>
+                        <span>Activities</span>
+                    </a>
+                    <div id="collapactivity" class="collapse {{ Request::is('activities/*') ? 'show' : '' }}"
+                        aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Manage Activities:</h6>
+                            <a class="collapse-item {{ Request::is('activities/list-prospects') ? 'active' : '' }}"
+                                href="{{ url('activities/list-prospects') }}">Add Activity</a>
+                            <a class="collapse-item {{ Request::is('activities/manage-activities') ? 'active' : '' }}"
+                                href="{{ url('activities/manage-activities') }}">Manage Activities</a>
+                        </div>
+                    </div>
+                </li>
 
                 <!-- Divider -->
                 <hr class="sidebar-divider">
@@ -88,7 +104,7 @@
                 <div class="sidebar-heading">
                     Customer Management
                 </div>
-                <!-- Nav Item - Utilities Collapse Menu -->
+                <!-- Nav Item - Account Collapse Menu -->
                 <li class="nav-item {{ Request::is('accounts/*') ? 'active' : '' }}">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAccount"
                         aria-expanded="{{ Request::is('accounts/*') ? 'true' : 'false' }}"
@@ -97,7 +113,7 @@
                         <span>Account</span>
                     </a>
                     <div id="collapseAccount" class="collapse {{ Request::is('accounts/*') ? 'show' : '' }}"
-                        aria-labelledby="headingAccount">
+                        aria-labelledby="headingAccount" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Manage Accounts:</h6>
                             <a class="collapse-item {{ Request::is('accounts/add-account') ? 'active' : '' }}"
@@ -108,6 +124,7 @@
                     </div>
                 </li>
 
+                <!-- Nav Item - Contact Collapse Menu -->
                 <li class="nav-item {{ Request::is('contacts/*') ? 'active' : '' }}">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseContact"
                         aria-expanded="{{ Request::is('contacts/*') ? 'true' : 'false' }}"
@@ -116,7 +133,7 @@
                         <span>Contact</span>
                     </a>
                     <div id="collapseContact" class="collapse {{ Request::is('contacts/*') ? 'show' : '' }}"
-                        aria-labelledby="headingContact">
+                        aria-labelledby="headingContact" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Manage Contacts:</h6>
                             <a class="collapse-item {{ Request::is('contacts/add-contact') ? 'active' : '' }}"
@@ -127,14 +144,16 @@
                     </div>
                 </li>
 
+                <!-- Nav Item - Deals Collapse Menu -->
                 <li class="nav-item {{ Request::is('deals/*') ? 'active' : '' }}">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDeals"
-                        aria-expanded="{{ Request::is('deals/*') ? 'true' : 'false' }}" aria-controls="collapseDeals">
+                        aria-expanded="{{ Request::is('deals/*') ? 'true' : 'false' }}"
+                        aria-controls="collapseDeals">
                         <i class="fas fa-fw fa-handshake"></i>
                         <span>Deals</span>
                     </a>
                     <div id="collapseDeals" class="collapse {{ Request::is('deals/*') ? 'show' : '' }}"
-                        aria-labelledby="headingDeals">
+                        aria-labelledby="headingDeals" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Manage Deals:</h6>
                             <a class="collapse-item {{ Request::is('deals/add-deal') ? 'active' : '' }}"
@@ -146,11 +165,7 @@
                 </li>
             @endif
 
-
-            <!-- Nav Item - Pages Collapse Menu -->
-
-
-            <!-- Nav Item - Charts -->
+            <!-- Nav Item - Additional Menus for Admin -->
             @if (Auth::user()->role == 'admin')
                 <li class="nav-item {{ Request::is('sales/manage-sales') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/sales/manage-sales') }}">
@@ -178,28 +193,28 @@
 
                 <li class="nav-item {{ Request::is('reports/reports-prospects') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/reports/reports-prospects') }}">
-                        <i class="fas fa-user-tag"></i> {{-- Ikon untuk prospek --}}
+                        <i class="fas fa-user-tag"></i>
                         <span>All Prospects</span>
                     </a>
                 </li>
 
                 <li class="nav-item {{ Request::is('reports/reports-accounts') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/reports/reports-accounts') }}">
-                        <i class="fas fa-building"></i> {{-- Ikon untuk akun perusahaan --}}
+                        <i class="fas fa-building"></i>
                         <span>All Accounts</span>
                     </a>
                 </li>
 
                 <li class="nav-item {{ Request::is('reports/reports-contacts') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/reports/reports-contacts') }}">
-                        <i class="fas fa-address-book"></i> {{-- Ikon untuk kontak --}}
+                        <i class="fas fa-address-book"></i>
                         <span>All Contacts</span>
                     </a>
                 </li>
 
                 <li class="nav-item {{ Request::is('reports/reports-deals') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/reports/reports-deals') }}">
-                        <i class="fas fa-handshake"></i> {{-- Ikon untuk deals/transaksi --}}
+                        <i class="fas fa-handshake"></i>
                         <span>All Deals</span>
                     </a>
                 </li>
@@ -214,26 +229,13 @@
                 </li>
             @endif
 
-
-
-            <!-- Nav Item - Tables -->
-            {{-- <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
-            </li> --}}
-
-
-
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
-
-
-
         </ul>
         <!-- End of Sidebar -->
+
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
