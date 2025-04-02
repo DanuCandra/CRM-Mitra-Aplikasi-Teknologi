@@ -179,11 +179,13 @@ class Admincontroller extends Controller
         $total_deals = DealModel::count();
         $total_sales = User::where('role', 'sales')->count();
         $total_amount = DealModel::sum('amount');
+        $prospects_count = ProspectModel::where('status', 'aktif')->count();
         return view('dashboard.admin_dashboard', [
             'total_sales' => $total_sales,
             'total_deals' => $total_deals,
             'total_amount' => $total_amount,
-            'prospect_sources' => $prospect_sources
+            'prospect_sources' => $prospect_sources,
+            'prospects_count' => $prospects_count,
         ]);
     }
 

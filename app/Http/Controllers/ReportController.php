@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\DealModel;
 use App\Models\AccountModel;
+use App\Models\ActivitiesModel;
 use App\Models\ContactModel;
 use Illuminate\Http\Request;
 use App\Models\ProspectModel;
@@ -37,6 +38,9 @@ class ReportController extends Controller
         $contacts_count = ContactModel::where('user_id', $id)->count();
         $deals_count = DealModel::where('user_id', $id)->count();
         $total_amount = DealModel::where('user_id', $id)->sum('amount');
+        $total_activities = ProspectModel::whereHas('activities', function ($query) use ($id) {
+            $query->where('user_id', $id);
+        })->count();
 
 
         return view('reports.view_report', [
@@ -46,7 +50,8 @@ class ReportController extends Controller
             'contacts_count' => $contacts_count,
             'deals_count' => $deals_count,
             'total_amount' => $total_amount,
-            'prospect_sources' => $prospect_sources
+            'prospect_sources' => $prospect_sources,
+            'total_activities' => $total_activities,
         ]);
     }
 
@@ -70,6 +75,34 @@ class ReportController extends Controller
 
         return view('reports.details_deals', compact('sales', 'deals', 'start_date', 'end_date'));
     }
+
+    public function details_activities(Request $request, $user_id)
+    {
+        $sales = User::findOrFail($user_id);
+
+        $activities = ProspectModel::whereHas('activities', function ($query) use ($user_id) {
+            $query->where('user_id', $user_id);
+        })->get();
+
+        return view('reports.details_activities', compact('sales', 'activities'));
+    }
+
+    public function view_report_activities($id)
+    {
+
+        $prospect = ProspectModel::findOrFail($id);
+
+        $activities = ActivitiesModel::where('prospect_id', $id)
+            ->orderBy('date_time', 'desc')
+            ->get();
+
+
+        return view('reports.view_report_activities', [
+            'prospect' => $prospect,
+            'activities' => $activities,
+        ]);
+    }
+
 
     public function details_accounts(Request $request, $user_id)
     {
