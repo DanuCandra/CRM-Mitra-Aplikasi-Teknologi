@@ -243,4 +243,10 @@ class ReportController extends Controller
 
         return view('reports.reports_deals', ['deals' => $data]);
     }
+
+    public function reports_activities()
+    {
+        $data = User::where('role', 'sales')->get();
+        return view('reports.reports_activities', ['activities' => $data]);
+    }
 }

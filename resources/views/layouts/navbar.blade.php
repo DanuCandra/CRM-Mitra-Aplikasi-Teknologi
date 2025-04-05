@@ -197,6 +197,12 @@
                         <span>All Prospects</span>
                     </a>
                 </li>
+                <li class="nav-item {{ Request::is('reports/reports-activities') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/reports/reports-activities') }}">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>All Activities</span>
+                    </a>
+                </li>
 
                 <li class="nav-item {{ Request::is('reports/reports-accounts') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/reports/reports-accounts') }}">

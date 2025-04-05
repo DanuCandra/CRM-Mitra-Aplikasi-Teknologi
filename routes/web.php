@@ -128,4 +128,5 @@ Route::group(['prefix' => 'reports'], function () {
     Route::get('/reports-accounts', [ReportController::class, 'reports_accounts']);
     Route::get('/reports-contacts', [ReportController::class, 'reports_contacts']);
     Route::get('/reports-deals', [ReportController::class, 'reports_deals']);
+    Route::get('/reports-activities', [ReportController::class, 'reports_activities']);
 });
