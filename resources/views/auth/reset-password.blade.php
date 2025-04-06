@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Login | CRM Mitra Aplikasi Teknologi V2</title>
+    <title>Reset Password</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--===============================================================================================-->
@@ -33,10 +33,10 @@
                     <img src="{{ url('') }}/img/12.webp" alt="IMG">
                 </div>
 
-                <form class="login100-form validate-form" method="POST">
+                <form class="login100-form validate-form" action="/reset-password" method="POST">
                     @csrf
                     <span class="login100-form-title">
-                        Login CRM Mitra Aplikasi Teknologi
+                        reset password
                     </span>
                     @if ($errors->any())
                         <div class="alert alert-danger">
@@ -48,14 +48,8 @@
                         </div>
                     @endif
 
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
                     <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-                        <input class="input100" type="text" value="{{ old('email') }}" name="email"
+                        <input class="input100" type="email" value="{{ old('email') }}" name="email"
                             placeholder="Email">
                         <span class="focus-input100"></span>
                         <span class="symbol-input100">
@@ -64,28 +58,33 @@
                     </div>
 
                     <div class="wrap-input100 validate-input" data-validate = "Password is required">
-                        <input class="input100" type="password" value="{{ old('password') }}" name="password"
+                        <input class="input100" type="password" value="" name="password"
+                            placeholder="Retype Password">
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-lock" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="wrap-input100 validate-input" data-validate = "Password is required">
+                        <input class="input100" type="password" value="" name="password_confirmation"
                             placeholder="Password">
                         <span class="focus-input100"></span>
                         <span class="symbol-input100">
                             <i class="fa fa-lock" aria-hidden="true"></i>
                         </span>
                     </div>
+                    <div class="wrap-input100 validate-input" data-validate = "Password is required">
+                        <input class="input100" type="hidden" name="token" value="{{ $token }}" required>
+
+                    </div>
 
                     <div class="container-login100-form-btn">
                         <button class="login100-form-btn" type="submit">
-                            Login
+                            Reset
                         </button>
                     </div>
 
-                    <div class="text-center p-t-12">
-                        <span class="txt1">
-                            Forgot
-                        </span>
-                        <a class="txt2" href="{{ url('/forgot-password') }}">
-                            Password?
-                        </a>
-                    </div>
+                    
 
 
                 </form>

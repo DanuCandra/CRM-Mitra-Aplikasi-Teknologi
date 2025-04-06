@@ -1,17 +1,18 @@
 <?php
 
-use App\Http\Controllers\AccountController;
-use App\Http\Controllers\ActivitiesController;
-use App\Http\Controllers\Admincontroller;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\DealController;
-use App\Http\Controllers\ProspectController;
-use App\Http\Controllers\ReportController;
-use App\Http\Controllers\SalesController;
-use App\Http\Controllers\SesiController;
 use App\Http\Middleware\UserAkses;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DealController;
+use App\Http\Controllers\MailController;
+use App\Http\Controllers\SesiController;
+use App\Http\Controllers\Admincontroller;
+use App\Http\Controllers\SalesController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ProspectController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ActivitiesController;
 use SebastianBergmann\CodeCoverage\Report\Xml\Report;
 
 // Route::get('/sales', function () {
@@ -26,6 +27,11 @@ Route::get('/404', function () {
 Route::middleware('guest')->group(function () {
     Route::get('/', [SesiController::class, 'index'])->name('login');
     Route::post('/', [SesiController::class, 'login']);
+
+    Route::get('/forgot-password', [MailController::class, 'forgot_password'])->name('password.request');
+    Route::post('/forgot-password', [MailController::class, 'send_reset_link'])->name('password.email');
+    Route::get('/reset-password/{token}', [MailController::class, 'show_reset_form'])->name('password.reset');
+    Route::post('/reset-password', [MailController::class, 'update_password'])->name('password.update');
 });
 Route::get('/home', function () {
     return redirect('/admin');
