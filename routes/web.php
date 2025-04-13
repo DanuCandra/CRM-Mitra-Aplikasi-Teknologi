@@ -40,7 +40,8 @@ Route::get('/home', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/sales', [Admincontroller::class, 'sales'])->middleware(UserAkses::class . ':sales');
     Route::get('/admin', [Admincontroller::class, 'admin'])->middleware(UserAkses::class . ':admin');
-    Route::get('/superadmin', [Admincontroller::class, 'manage_admin'])->middleware(UserAkses::class . ':superadmin');
+    Route::get('/superadmin', [Admincontroller::class, 'admin'])->middleware(UserAkses::class . ':superadmin');
+    Route::get('/manage-admin', [Admincontroller::class, 'manage_admin']);
     Route::get('/logout', [SesiController::class, 'logout']);
 });
 

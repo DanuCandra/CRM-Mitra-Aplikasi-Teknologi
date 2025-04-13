@@ -113,9 +113,9 @@ class Admincontroller extends Controller
             ];
         }
 
-        // Cek apakah user adalah admin
-        if (Auth::user()->role === 'admin') {
-            // Untuk admin, ambil semua deal tanpa filter user_id
+        // Cek apakah user adalah admin atau superadmin
+        if (in_array(Auth::user()->role, ['admin', 'superadmin'])) {
+            // Untuk admin dan superadmin, ambil semua deal tanpa filter user_id
             $query = DealModel::whereBetween('created_at', [$startDate, $endDate]);
         } else {
             // Untuk sales, ambil deal berdasarkan user_id
@@ -123,6 +123,7 @@ class Admincontroller extends Controller
             $query = DealModel::where('user_id', $user_id)
                 ->whereBetween('created_at', [$startDate, $endDate]);
         }
+
 
         // Query data berdasarkan groupBy
         switch ($groupBy) {

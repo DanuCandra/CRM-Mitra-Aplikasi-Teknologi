@@ -35,14 +35,16 @@
                     </a>
                 </li>
             @endif
-            @if (Auth::user()->role == 'admin')
-                <li class="nav-item {{ Request::is('admin') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ url('/admin') }}">
+            @if (in_array(Auth::user()->role, ['admin', 'superadmin']))
+                <li class="nav-item {{ Request::is('admin') || Request::is('superadmin') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url(Auth::user()->role == 'admin' ? '/admin' : '/superadmin') }}">
                         <i class="fas fa-fw fa-tachometer-alt"></i>
-                        <span>Dashboard Admin</span>
+                        <span>Dashboard {{ ucfirst(Auth::user()->role) }}</span>
                     </a>
                 </li>
             @endif
+
+
 
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -227,13 +229,14 @@
             @endif
 
             @if (Auth::user()->role == 'superadmin')
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ url('/superadmin') }}">
+                <li class="nav-item {{ Request::is('manage-admin') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/manage-admin') }}">
                         <i class="fas fa-fw fa-user-shield"></i>
                         <span>Manage Admin</span>
                     </a>
                 </li>
             @endif
+
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
