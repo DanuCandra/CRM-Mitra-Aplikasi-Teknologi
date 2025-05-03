@@ -48,7 +48,7 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider">
-            @if (Auth::user()->role == 'admin')
+            @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
                 <!-- Heading -->
                 <div class="sidebar-heading">
                     Sales Management
@@ -167,8 +167,16 @@
                 </li>
             @endif
 
+            @if (Auth::user()->role == 'superadmin')
+                <li class="nav-item {{ Request::is('manage-admin') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/manage-admin') }}">
+                        <i class="fas fa-fw fa-user-shield"></i>
+                        <span>Manage Admin</span>
+                    </a>
+                </li>
+            @endif
             <!-- Nav Item - Additional Menus for Admin -->
-            @if (Auth::user()->role == 'admin')
+            @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
                 <li class="nav-item {{ Request::is('sales/manage-sales') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/sales/manage-sales') }}">
                         <i class="fas fa-fw fa-users"></i>
@@ -228,14 +236,7 @@
                 </li>
             @endif
 
-            @if (Auth::user()->role == 'superadmin')
-                <li class="nav-item {{ Request::is('manage-admin') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ url('/manage-admin') }}">
-                        <i class="fas fa-fw fa-user-shield"></i>
-                        <span>Manage Admin</span>
-                    </a>
-                </li>
-            @endif
+
 
 
             <!-- Sidebar Toggler (Sidebar) -->
