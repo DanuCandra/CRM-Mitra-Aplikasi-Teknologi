@@ -57,8 +57,8 @@
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Target
-                                    ({{ $target_deals }} Deals/Bulan)
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Goals
+                                    ({{ $target_deals }} Deals/Month)
                                 </div>
                                 <div class="row no-gutters align-items-center">
                                     <div class="col-auto">
