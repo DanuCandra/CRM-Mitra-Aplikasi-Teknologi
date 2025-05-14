@@ -171,7 +171,7 @@
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary" name="submit" value="submit">Edit</button>
-                        <a href="{{ url('/prospects/manage-prospects') }}" class="btn btn-secondary">Cancel</a>
+                        <a href="{{ url('/prospects/manage-prospects') }}" class="btn btn-secondary">Cancel </a>
                     </div>
                 </form>
             </div>
