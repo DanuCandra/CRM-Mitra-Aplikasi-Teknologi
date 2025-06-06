@@ -1,8 +1,8 @@
-@servers(['production' => ['root@203.194.113.123']])
+@servers(['production' => ['server-danu@202.74.74.184']])
 
 @setup
     $repo = 'https://github.com/DanuCandra/CRM-Mitra-Aplikasi-Teknologi.git';
-    $appDir = '/var/www/crm-staging.server-danu.cloud';
+    $appDir = '/var/www/staging-crm.server-danu.cloud';
     $branch = 'main';
 
     date_default_timezone_set('Asia/Jakarta');
@@ -39,8 +39,8 @@
 
     echo "🚀 Running Migrations..."
     php ./artisan migrate --force || { echo "❌ Migration failed"; exit 1; }
-{{-- 
-    echo "🚀 Running Seeder..."
+    
+    {{-- echo "🚀 Running Seeder..."
     php ./artisan db:seed --class=dummyUsersSeeder --force || { echo "❌ Seeding failed"; exit 1; } --}}
 @endtask
 
@@ -49,7 +49,8 @@
 
     ln -nfs {{ $deployment }} {{ $serve }}
 
-    chown -R www-data: /var/www
+    sudo su
+    {{-- chown -R www-data: /var/www --}}
 
     systemctl restart php8.3-fpm
 
