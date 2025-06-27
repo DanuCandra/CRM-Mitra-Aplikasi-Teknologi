@@ -50,7 +50,7 @@
     ln -nfs {{ $deployment }} {{ $serve }}
 
     sudo su
-    {{-- chown -R www-data: /var/www --}}
+    {{-- chown -R www-data: /var/www  --}}
 
     systemctl restart php8.3-fpm
 
