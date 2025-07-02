@@ -1,4 +1,4 @@
-@servers(['production' => ['root@http:165.22.103.46']])
+@servers(['production' => ['root@165.22.103.46']])
 
 @setup
     $repo = 'https://github.com/DanuCandra/CRM-Mitra-Aplikasi-Teknologi.git';
