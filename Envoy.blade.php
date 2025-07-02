@@ -1,8 +1,8 @@
-@servers(['production' => ['root@174.138.16.124']])
+@servers(['production' => ['root@http:165.22.103.46']])
 
 @setup
     $repo = 'https://github.com/DanuCandra/CRM-Mitra-Aplikasi-Teknologi.git';
-    $appDir = '/var/www/staging-crm.danucandra.my.id';
+    $appDir = '/var/www/staging.crm/';
     $branch = 'main';
 
     date_default_timezone_set('Asia/Jakarta');
@@ -40,8 +40,8 @@
     echo "🚀 Running Migrations..."
     php ./artisan migrate --force || { echo "❌ Migration failed"; exit 1; }
     
-    {{-- echo "🚀 Running Seeder..."
-    php ./artisan db:seed --class=dummyUsersSeeder --force || { echo "❌ Seeding failed"; exit 1; } --}}
+    echo "🚀 Running Seeder..."
+    php ./artisan db:seed --class=dummyUsersSeeder --force || { echo "❌ Seeding failed"; exit 1; }
 @endtask
 
 @task('live', ['on' => 'production'])
